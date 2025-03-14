@@ -1,0 +1,37 @@
+## Continuous Variables
+
+- **Date of birth**: Should be converted to a continuous age variable.
+
+- **Healthcare costs**:
+    - Contains negative values. Need to interpret the reason behind this. (Could it be related to the 'insurance cost' variable class? Could it be a reimbursement?)
+    - Should be scaled due to the magnitude of its range.
+
+- **Mortality rate per 100K**: Contains negative values. Most likely need to impute or change its value.
+
+- **Outliers detected in**:
+    - 'Healthcare Costs'
+    - 'Incidence Rate per 100K'
+    - 'Mortality Rate per 100K'
+    - 'Tumor Size (mm)'
+
+## Categorical Variables
+
+- **Marital status**: Should be removed as it is completely empty.
+
+- **Transfusion history**: Should be removed as it only contains null values.
+
+- **Gender**: Contains an additional class 'P'.
+    - (Could it be due to an undefined gender or a minority community?)
+
+- **Healthcare Access**: Contains an additional class '?'.
+    - Could be due to unknown information due to unique customer factors (e.g., location, rural or urban area?)
+
+- **Urban or Rural**: Contains repeated classes written differently.
+
+- **Diabetes History**: Almost the entire distribution falls into the 'No' class. Does not add much information. Consider removing.
+
+## Feature Engineering
+
+- Is there a correspondence between the classes of 'Insurance cost' and 'Insurance Status'?
+
+- Could 'Obesity BMI' and 'Diet risk' be highly correlated? Both are categorical variables.
