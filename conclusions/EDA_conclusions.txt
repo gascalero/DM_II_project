@@ -35,3 +35,62 @@
 - Is there a correspondence between the classes of 'Insurance cost' and 'Insurance Status'?
 
 - Could 'Obesity BMI' and 'Diet risk' be highly correlated? Both are categorical variables.
+
+---
+
+23/03/2025:
+
+Work Completed Today (Preprocessing):
+
+- Created preprocessing notebook with basic data cleaning steps
+- Implemented data splitting strategy (70% training, 15% validation, 15% test)
+- Maintained class distribution through stratified sampling
+- Dropped problematic columns as identified in EDA:
+-'Marital Status' (completely empty)
+-'Transfusion History' (only null values)
+-'Diabetes History' (low variance - predominantly 'No' class)
+- Applied country-to-continent mapping for geographical feature engineering
+- Only performed transformations that don't risk data leakage
+
+Expected next steps:
+
+1. Create Preprocessing Pipeline (more details on step 5)
+- Implement winsorizing for handling outliers in continuous variables
+- Apply RobustScaler for normalizing variables with different scales
+- Create proper encoding for categorical variables
+- Ensure all transformations are fitted only on training data
+
+2. Feature Engineering
+- Convert 'Date of Birth' to age variable
+- Investigate relationship between 'Insurance Cost' and 'Insurance Status'
+- Analyze potential correlation between 'Obesity BMI' and 'Diet Risk'
+- Clean up 'Urban or Rural' variable by consolidating duplicate classes
+- Investigate and handle special values in 'Gender' ('P') and 'Healthcare Access' ('?')
+
+3. Feature Selection
+- Apply filter methods for initial feature importance ranking
+- Implement embedded methods with suitable models
+- Determine optimal feature subset for modeling
+- Document rationale for feature inclusion/exclusion
+
+4. Initial Modeling
+- Establish baseline models using processed data
+- Compare performance across different algorithms
+- Identify promising model architectures for further optimization
+
+5. Decisions on Outliers and Scaling
+
+Outlier Treatment:
+- Decided to use winsorizing (1% and 99% percentiles) instead of removing outliers
+- Rationale: Very few outliers identified (max 25 per variable in 75,000 rows)
+- Winsorizing preserves data volume while limiting extreme values' influence
+- Special attention to variables with negative values that should be positive
+
+Scaling Approach:
+- Selected RobustScaler as the optimal scaling method
+- Rationale: Variables have widely different scales (Healthcare Costs vs Incidence Rates)
+- RobustScaler uses median and IQR, making it resistant to outliers
+- All continuous variables had very low skewness values (all <0.03), confirming no need for log transformations
+- Scaling will be applied only after train/val/test split to prevent data leakage
+
+These decisions balance statistical validity with computational efficiency, maintaining data integrity while preparing for optimal model performance.
