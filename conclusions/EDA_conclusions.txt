@@ -61,10 +61,10 @@ Expected next steps:
 - Ensure all transformations are fitted only on training data
 
 2. Feature Engineering
-- Convert 'Date of Birth' to age variable
-- Investigate relationship between 'Insurance Cost' and 'Insurance Status'
-- Analyze potential correlation between 'Obesity BMI' and 'Diet Risk'
-- Clean up 'Urban or Rural' variable by consolidating duplicate classes
+X- Convert 'Date of Birth' to age variable
+X- Investigate relationship between 'Insurance Cost' and 'Insurance Status'
+X- Analyze potential correlation between 'Obesity BMI' and 'Diet Risk'
+X- Clean up 'Urban or Rural' variable by consolidating duplicate classes
 - Investigate and handle special values in 'Gender' ('P') and 'Healthcare Access' ('?')
 
 3. Feature Selection
