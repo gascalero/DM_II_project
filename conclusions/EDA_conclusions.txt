@@ -38,59 +38,41 @@
 
 ---
 
-23/03/2025:
+**Notes for Features_prep_4**:
 
-Work Completed Today (Preprocessing):
+WHAT DID COME FROM Features_prep_3 ?:
 
-- Created preprocessing notebook with basic data cleaning steps
-- Implemented data splitting strategy (70% training, 15% validation, 15% test)
-- Maintained class distribution through stratified sampling
-- Dropped problematic columns as identified in EDA:
--'Marital Status' (completely empty)
--'Transfusion History' (only null values)
--'Diabetes History' (low variance - predominantly 'No' class)
-- Applied country-to-continent mapping for geographical feature engineering
-- Only performed transformations that don't risk data leakage
+- Remove problematic columns ('Transfusion History', 'Marital Status', 'Smoking History')
 
-Expected next steps:
+- Replace strange values in 'Gender' and 'Healthcare Access'
 
-1. Create Preprocessing Pipeline (more details on step 5)
-- Implement winsorizing for handling outliers in continuous variables
-- Apply RobustScaler for normalizing variables with different scales
-- Create proper encoding for categorical variables
-- Ensure all transformations are fitted only on training data
+- Remove rows with missing values, so no imputation is performed in the train set.
 
-2. Feature Engineering
-X- Convert 'Date of Birth' to age variable
-X- Investigate relationship between 'Insurance Cost' and 'Insurance Status'
-X- Analyze potential correlation between 'Obesity BMI' and 'Diet Risk'
-X- Clean up 'Urban or Rural' variable by consolidating duplicate classes
-- Investigate and handle special values in 'Gender' ('P') and 'Healthcare Access' ('?')
+- Standardize values in the 'Urban or Rural' column
 
-3. Feature Selection
-- Apply filter methods for initial feature importance ranking
-- Implement embedded methods with suitable models
-- Determine optimal feature subset for modeling
-- Document rationale for feature inclusion/exclusion
+- Convert boolean variables from string to integers (1, 0)
 
-4. Initial Modeling
-- Establish baseline models using processed data
-- Compare performance across different algorithms
-- Identify promising model architectures for further optimization
+- Create the 'Age' variable from 'Date of Birth' and remove the latter.
 
-5. Decisions on Outliers and Scaling
+- Winsorize outliers.
 
-Outlier Treatment:
-- Decided to use winsorizing (1% and 99% percentiles) instead of removing outliers
-- Rationale: Very few outliers identified (max 25 per variable in 75,000 rows)
-- Winsorizing preserves data volume while limiting extreme values' influence
-- Special attention to variables with negative values that should be positive
+- Replace negative values with the column median.
 
-Scaling Approach:
-- Selected RobustScaler as the optimal scaling method
-- Rationale: Variables have widely different scales (Healthcare Costs vs Incidence Rates)
-- RobustScaler uses median and IQR, making it resistant to outliers
-- All continuous variables had very low skewness values (all <0.03), confirming no need for log transformations
-- Scaling will be applied only after train/val/test split to prevent data leakage
+- Scale ONLY numerical columns.
 
-These decisions balance statistical validity with computational efficiency, maintaining data integrity while preparing for optimal model performance.
+- Create dummies for categorical variables ('Cancer Stage', 'Country', 'Diet Risk', 'Gender', 'Healthcare Access',
+    'Insurance Costs', 'Insurance Status', 'Obesity BMI', 'Physical Activity',
+    'Screening History', 'Smoking History', 'Treatment Type', 'Urban or Rural')
+
+WHAT TO DO DIFFERENTLY IN Features_prep_4?
+
+[X] Perform custom preprocessing depending on the algorithm (e.g., limit scaling for models sensitive to scale, such as KNN)
+
+[X] Create a new variable 'Cardiometabolic_Risk' that groups Diabetes and Heart Disease History. 'Diabetes History' was moved from binary_columns to the columns_to_delete list. 'Diabetes' and 'Heart Disease History' are kept so the model can better differentiate patterns.
+
+[X] In the split_sets function, I transformed the 'DoB' column to a datatype due to an unknown error that prevented transformation later in the already split X_test.
+
+[X] Added 'Age' to numeric_column to impute missing values with the train_set median.
+
+With these modifications, I obtained an F1 score of 0.51 using logistic regression with max_iter set to 100000 and class_weight balanced.
+
